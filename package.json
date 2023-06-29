@@ -1,0 +1,36 @@
+{
+    "name": "pixi-game",
+    "version": "0.0.1",
+    "description": "a game made with pixijs in typescript",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "develop": "webpack-dev-server --mode development",
+        "build": "webpack --mode production"
+    },
+    "keywords": [
+        "pixijs",
+        "pixi",
+        "js",
+        "typescript",
+        "game",
+        "gamedev"
+    ],
+    "author": "Maté 'Mateji' Intemann",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.3.2",
+        "clean-webpack-plugin": "^4.0.0",
+        "copy-webpack-plugin": "^11.0.0",
+        "html-webpack-plugin": "^5.5.3",
+        "prettier": "^2.8.8",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5.1.6",
+        "webpack": "^5.88.1",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    },
+    "dependencies": {
+        "pixi.js": "^7.2.4"
+    }
+}
