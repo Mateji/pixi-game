@@ -1,1 +1,4 @@
-console.log('DEI MUDDI');
+import * as PIXI from 'pixi.js';
+import { Game } from './game';
+
+new Game();
