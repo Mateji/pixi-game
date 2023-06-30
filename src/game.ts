@@ -1,23 +1,44 @@
 import * as PIXI from 'pixi.js';
+import { Application, Sprite } from 'pixi.js';
 
 export class Game {
+    private app: Application<HTMLCanvasElement>;
+    private tile: Sprite;
+    private tile2: Sprite;
+
     constructor() {
         // create canvas
-        let app = new PIXI.Application<HTMLCanvasElement>({ width: 1200, height: 800 });
-        document.body.appendChild(app.view);
+        this.app = new PIXI.Application<HTMLCanvasElement>({ width: window.innerWidth, height: window.innerHeight });
+        document.body.appendChild(this.app.view);
 
-        // load sprite
-        const tile = PIXI.Sprite.from('assets/platformerTile_48.png');
+        this.tile = PIXI.Sprite.from('assets/platformerTile_48.png');
+        this.tile2 = PIXI.Sprite.from('assets/platformerTile_48.png');
 
-        tile.anchor.set(0.5);
+        this.tile.anchor.set(0.5);
+        this.tile2.anchor.set(0.5);
 
-        tile.x = app.screen.width / 2;
-        tile.y = app.screen.height / 2;
+        this.app.stage.addChild(this.tile, this.tile2);
 
-        app.stage.addChild(tile);
+        window.addEventListener('resize', this.resize.bind(this));
+        this.resize();
 
-        app.ticker.add(delta => {
-            tile.rotation += 0.01 * delta;
-        });
+        this.tile2.x = this.app.screen.width / 2 + this.tile2.width;
+        this.tile2.y = this.app.screen.height / 2;
+
+        this.tile.x = this.app.screen.width / 2;
+        this.tile.y = this.app.screen.height / 2;
+    }
+
+    private resize(): void {
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        // You can use the 'screen' property as the renderer visible
+        // area, this is more useful than view.width/height because
+        // it handles resolution
+        // this.app.screen.width, this.app.screen.height
+        this.tile.x = this.app.screen.width / 2;
+        this.tile.y = this.app.screen.height / 2;
+        this.tile2.x = this.app.screen.width / 2 + this.tile2.width;
+        this.tile2.y = this.app.screen.height / 2;
     }
 }
