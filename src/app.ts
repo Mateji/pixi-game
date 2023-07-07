@@ -1,3 +1,4 @@
+import { ScenesManager } from './classes/ScenesManager';
 import { Game } from './classes/game';
 import './css/style.css';
 
@@ -7,4 +8,5 @@ canvasContainer.classList.add('canvas-container');
 document.body.appendChild(canvasContainer);
 
 // create Game & add canvas to container
-canvasContainer.appendChild(new Game().getView());
+const game = new Game(canvasContainer);
+game.setStartingScene();

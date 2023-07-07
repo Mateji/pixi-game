@@ -6,38 +6,32 @@ export class ScenesManager {
     public static currentScene: Scene;
     public static renderer: IRenderer;
 
-    public static create(width: number, height: number) {
+    public static create(width: number, height: number, canvasContainer: HTMLElement) {
         if (ScenesManager.renderer) {
             return this;
         }
 
         ScenesManager.renderer = autoDetectRenderer({ width, height });
-        requestAnimationFrame(ScenesManager.loop);
+        canvasContainer.appendChild(<HTMLCanvasElement>ScenesManager.renderer.view);
+        requestAnimationFrame(ScenesManager.loop.bind(this));
         return this;
     }
 
-    public static loop() {
-        requestAnimationFrame(function () {
-            ScenesManager.loop();
-        });
-
-        if (!this.currentScene || this.currentScene.isPaused()) {
-            return;
-        }
-
-        this.currentScene.update();
-        ScenesManager.renderer.render(this.currentScene);
-    }
-
-    public static createScene(name: string): Scene | undefined {
+    public static createScene(name: string, TScene: new () => Scene = Scene): Scene {
         if (ScenesManager.scenes[name]) {
-            return;
+            return ScenesManager.scenes[name];
         }
 
-        let scene = new Scene();
+        var scene = new TScene();
+        scene.setName(name);
+
         ScenesManager.scenes[name] = scene;
 
         return scene;
+    }
+
+    public static getScene(name: string): Scene | undefined {
+        return ScenesManager.scenes[name];
     }
 
     public static goToScene(name: string): boolean {
@@ -52,5 +46,16 @@ export class ScenesManager {
             return true;
         }
         return false;
+    }
+
+    private static loop() {
+        requestAnimationFrame(ScenesManager.loop.bind(this));
+
+        if (!this.currentScene || this.currentScene.isPaused()) {
+            return;
+        }
+
+        this.currentScene.update();
+        ScenesManager.renderer.render(this.currentScene);
     }
 }

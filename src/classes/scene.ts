@@ -1,6 +1,7 @@
 import { Container } from 'pixi.js';
 
 export class Scene extends Container {
+    private name: string = '';
     private paused: boolean = false;
     private updateCB = function () {};
 
@@ -28,5 +29,13 @@ export class Scene extends Container {
 
     public isPaused() {
         return this.paused;
+    }
+
+    public getName() {
+        return this.name;
+    }
+
+    public setName(name: string) {
+        this.name = name;
     }
 }
